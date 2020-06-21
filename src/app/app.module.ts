@@ -6,6 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import 'hammerjs';
 
 import { MatListModule } from '@angular/material/list';
@@ -38,6 +39,8 @@ import { PromotionsService } from './services/promotions.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 
+import { baseURL } from './shared/baseurl';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,10 +72,16 @@ import { LoginComponent } from './login/login.component';
     MatProgressSpinnerModule,
     MatSliderModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   entryComponents:[LoginComponent],
-  providers: [DishService,PromotionsService,LeaderService],
+  providers: [
+    DishService,
+    PromotionsService,
+    LeaderService,
+    {provide:'BaseURL', useValue: baseURL}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
