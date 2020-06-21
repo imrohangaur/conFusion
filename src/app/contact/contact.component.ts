@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-contact',
@@ -10,7 +9,7 @@ import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
 })
 export class ContactComponent implements OnInit {
 
-  @ViewChild('fform') feedbackFormDirective;
+ // @ViewChild('fform') feedbackFormDirective;
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
@@ -96,7 +95,7 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ''
     });
-    this.feedbackFormDirective.resetForm();
+    //this.feedbackFormDirective.resetForm();
   }
 
 }
