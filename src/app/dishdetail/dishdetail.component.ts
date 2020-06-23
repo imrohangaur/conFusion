@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { Dish } from '../shared/dish';
 import { DishService } from '../services/dish.service';
 import { switchMap } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment } from '../shared/comment';
 import { visibility,flyInOut,expand } from '../animations/app.animation';
  
@@ -25,7 +25,7 @@ import { visibility,flyInOut,expand } from '../animations/app.animation';
 })
 export class DishdetailComponent implements OnInit {
 
-  //@ViewChild('cform') commentFormDirective;
+  @ViewChild('cform') commentFormDirective:any;
   dish : Dish;
   errMess : string;
   dishIds: string[];
@@ -57,7 +57,7 @@ export class DishdetailComponent implements OnInit {
      private location: Location,
      private route: ActivatedRoute,
      private fb: FormBuilder,
-     @Inject('BaseURL') private BaseURL) {
+     @Inject('BaseURL') public BaseURL) {
 
        this.createForm();
 
@@ -122,13 +122,13 @@ export class DishdetailComponent implements OnInit {
 
     this.comment.date=n;
 
-
     this.commentForm.reset({
       rating: 5,
       comment: '',
       author: '',
     }); 
-   // this.commentFormDirective.resetForm();
+    //this.commentFormDirective.resetForm();
+    
 
    this.dishcopy.comments.push(this.comment);
 

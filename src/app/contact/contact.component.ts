@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
+import { visibility,flyInOut,expand } from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
@@ -12,7 +13,9 @@ import { flyInOut } from '../animations/app.animation';
     'style': 'display: block;'
     },
     animations: [
-      flyInOut()
+      flyInOut(),
+      visibility(),
+      expand()
     ]
 })
 export class ContactComponent implements OnInit {
@@ -21,6 +24,10 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  errMess : string;
+  feedbackcopy : Feedback;
+  visibility = 'shown';
+  messagesuccess = true;
   formErrors = {
     'firstname': '',
     'lastname' : '',
@@ -49,7 +56,7 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private  fb : FormBuilder) {
+  constructor(private  fb : FormBuilder, private feedbackService : FeedbackService) {
     this.createForm();
   }
 
@@ -70,6 +77,7 @@ export class ContactComponent implements OnInit {
 
     this.onValueChanged();  // re(set) form validation messages
   }
+  
 
   onValueChanged(data? : any){
     if(!this.feedbackForm) {return;}
@@ -94,6 +102,7 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
@@ -103,7 +112,29 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ''
     });
-    //this.feedbackFormDirective.resetForm();
+    this.feedbackFormDirective.resetForm();
+    
+    
+
+    this.feedbackcopy=this.feedback;
+    this.visibility='hidden';
+    this.messagesuccess=true;
+
+    this.feedbackService.submitFeedback(this.feedbackcopy)
+    .subscribe(feedback => {
+        this.feedback = feedback; 
+        this.feedbackcopy=feedback;
+        this.visibility = 'shown';
+        this.represent();
+      }, errmess => {this.feedback=null; this.feedbackcopy =null; this.visibility = 'shown'; this.errMess = <any>errmess});
+    
+  }
+  
+  represent(){
+    setTimeout(()=>{    
+      this.messagesuccess = true;
+  }, 5000);
+  this.messagesuccess=false;
   }
 
 }
