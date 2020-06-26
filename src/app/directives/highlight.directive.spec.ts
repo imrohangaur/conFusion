@@ -6,3 +6,4 @@ describe('HighlightDirective', () => {
     expect(directive).toBeTruthy();
   });
 });
+ 
